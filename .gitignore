@@ -1,0 +1,9 @@
+# 这个仓库对外只放「产物 + 说明」，源码与构建脚本留在本地。
+# 白名单写法：除了下面几行，其它一律不进仓库（要在本地改源码，直接改就行）。
+/*
+!/.gitignore
+!/.gitattributes
+!/README.md
+!/LICENSE
+!/cmf-annotator.html
+!/docs/

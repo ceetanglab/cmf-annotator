@@ -1,0 +1,9 @@
+# 统一换行符为 LF（Windows 上也不会把整仓文件标成已修改）
+* text=auto eol=lf
+
+# 二进制资源不做换行转换
+*.jpg binary
+*.png binary
+
+# 仓库根的单文件产物：构建生成，不参与语言统计，diff 里折叠起来
+cmf-annotator.html -diff linguist-generated

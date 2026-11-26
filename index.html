@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMF 标注工具 · 渲染图标注材质 / 颜色 / 工艺，导出 PNG / PDF / SVG</title>
+    <meta name="description" content="免费在线 CMF 标注工具：在渲染图上拉引线标注材质、颜色（潘通色号）与工艺，填写项目信息栏，导出 PNG / PDF / 分层 SVG。浏览器本地运行，图片不上传。" />
+    <link rel="canonical" href="https://cmf.ceetang.com/" />
+    <meta name="theme-color" content="#8c75ff" />
+
+    <!-- 分享卡片：微信只取标题 / 描述 / 页面首图，Telegram、飞书、钉钉、Slack 才是完整大图卡片。
+         图片必须是外链绝对地址，抓取器不会读 data URI。 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="CMF 标注工具" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:title" content="CMF 标注工具：把渲染图变成一张能交付的 CMF 标注图" />
+    <meta property="og:description" content="在渲染图上拉引线，标注材质、颜色、工艺，导出 PNG / PDF / 分层 SVG。免费、无需注册、浏览器本地运行。" />
+    <meta property="og:url" content="https://cmf.ceetang.com/" />
+    <meta property="og:image" content="https://cmf.ceetang.com/og-cover.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="CMF 标注工具界面：渲染图上用引线标出材质 ABS、颜色 曜石灰、工艺 喷砂" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <!-- 站点图标：紫底 + 标注框/引线/锚点，内联 SVG，单文件部署时也不会 404 -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%238c75ff'/%3E%3Crect x='6.5' y='6.5' width='9' height='8' rx='2' fill='none' stroke='%23fff' stroke-width='2'/%3E%3Cpath d='M16 11.5l8.5 10' stroke='%23fff' stroke-width='2.2' stroke-linecap='round'/%3E%3Ccircle cx='24.5' cy='22' r='2.8' fill='%23fff'/%3E%3C/svg%3E"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "CMF 标注工具",
+        "url": "https://cmf.ceetang.com/",
+        "applicationCategory": "DesignApplication",
+        "operatingSystem": "Web",
+        "inLanguage": "zh-CN",
+        "description": "在渲染图上拉引线，标注材质、颜色、工艺并导出 PNG / PDF / 分层 SVG 的免费在线工具。",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+        "featureList": [
+          "引线标注材质、颜色、工艺",
+          "潘通色号记录",
+          "项目信息栏",
+          "画板比例与自动画布",
+          "导出 PNG / JPEG / WebP / PDF / SVG",
+          "离线单文件使用",
+          "数据仅保存在本地浏览器"
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

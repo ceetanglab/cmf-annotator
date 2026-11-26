@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMF 标注工具：在渲染图上标注材质、颜色、工艺，导出 PNG / PDF / SVG</title>
+    <meta
+      name="description"
+      content="免费在线 CMF 标注工具。在渲染图上拉引线，标注材质、颜色（潘通色号）和工艺，填写项目信息栏，一键导出 PNG、PDF 或分层 SVG。浏览器本地运行，图片不上传服务器。"
+    />
+    <link rel="canonical" href="https://cmf.ceetang.com/about.html" />
+    <meta name="theme-color" content="#8c75ff" />
+    <link rel="icon" href="./favicon.ico" sizes="any" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="CMF 标注工具" />
+    <meta property="og:title" content="CMF 标注工具：把渲染图变成一张能交付的 CMF 标注图" />
+    <meta
+      property="og:description"
+      content="在渲染图上拉引线，标注材质、颜色、工艺，导出 PNG / PDF / 分层 SVG。免费、浏览器本地运行。"
+    />
+    <meta property="og:url" content="https://cmf.ceetang.com/about.html" />
+    <meta property="og:image" content="https://cmf.ceetang.com/og-cover.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "CMF 标注工具",
+        "url": "https://cmf.ceetang.com/",
+        "applicationCategory": "DesignApplication",
+        "operatingSystem": "Web",
+        "inLanguage": "zh-CN",
+        "description": "在渲染图上拉引线，标注材质、颜色、工艺并导出 PNG / PDF / 分层 SVG 的免费在线工具。",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+        "featureList": [
+          "引线标注材质、颜色、工艺",
+          "潘通色号记录",
+          "项目信息栏",
+          "画板比例与自动画布",
+          "导出 PNG / JPEG / WebP / PDF / SVG",
+          "离线单文件使用",
+          "数据仅保存在本地浏览器"
+        ]
+      }
+    </script>
+
+    <style>
+      :root {
+        --brand: #8c75ff;
+        --brand-hover: #6f56f0;
+        --brand-soft: #f2eeff;
+        --ink: #2b2650;
+        --text: #1b1f2e;
+        --text-2: #5f5f5f;
+        --text-3: #8a8a8a;
+        --line: #e7e7e7;
+        --panel: #fafafa;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+        color: var(--text);
+        background: #fff;
+        font-size: 15px;
+        line-height: 1.75;
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: inherit; }
+      .wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+
+      /* ---------- 顶栏 ---------- */
+      .nav {
+        position: sticky; top: 0; z-index: 10;
+        background: rgba(255, 255, 255, 0.88);
+        backdrop-filter: saturate(180%) blur(10px);
+        border-bottom: 1px solid var(--line);
+      }
+      .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+      .logo { display: flex; align-items: center; gap: 9px; text-decoration: none; font-weight: 700; font-size: 14px; }
+      .logo-mark {
+        width: 26px; height: 26px; border-radius: 8px; flex: none;
+        background: linear-gradient(135deg, #8c75ff, #b3a2ff); color: #fff;
+        display: grid; place-items: center; font-size: 13px;
+        box-shadow: 0 2px 7px rgba(140, 117, 255, 0.34);
+      }
+      .btn {
+        display: inline-block; padding: 9px 18px; border-radius: 9px;
+        font-size: 13px; font-weight: 600; text-decoration: none;
+        transition: background 0.15s, border-color 0.15s, transform 0.15s;
+      }
+      .btn-primary { background: var(--ink); color: #fff; }
+      .btn-primary:hover { background: #3a3468; transform: translateY(-1px); }
+      .btn-ghost { border: 1px solid var(--line); color: var(--text); }
+      .btn-ghost:hover { border-color: #c9baff; color: var(--brand); }
+
+      /* ---------- 首屏 ---------- */
+      .hero { padding: 64px 0 52px; }
+      .hero .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+      /* grid 子项默认 min-width:auto，1200px 宽的分享图会把整列撑开、手机端横向溢出 */
+      .hero .wrap > * { min-width: 0; }
+      .eyebrow {
+        display: inline-block; padding: 3px 10px; border-radius: 999px;
+        background: var(--brand-soft); color: var(--brand-hover);
+        font-size: 12px; font-weight: 600; letter-spacing: 0.3px;
+      }
+      h1 { margin: 16px 0 14px; font-size: 36px; line-height: 1.28; letter-spacing: -0.6px; text-wrap: balance; }
+      h1 em { font-style: normal; color: var(--brand); }
+      .lede { margin: 0 0 26px; font-size: 16px; color: var(--text-2); }
+      .actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+      .actions .note { font-size: 12px; color: var(--text-3); }
+      .shot {
+        width: 100%; max-width: 100%; height: auto; display: block; border-radius: 14px;
+        border: 1px solid var(--line); box-shadow: 0 18px 44px rgba(27, 31, 46, 0.12);
+      }
+
+      /* ---------- 通用分段 ---------- */
+      section { padding: 64px 0; }
+      section.alt { background: var(--panel); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+      h2 { margin: 0 0 10px; font-size: 25px; line-height: 1.35; letter-spacing: -0.3px; text-wrap: balance; }
+      .sub { margin: 0 0 36px; color: var(--text-2); max-width: 640px; }
+
+      /* ---------- 三步 ---------- */
+      .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; counter-reset: step; }
+      .step {
+        background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 26px 22px 22px;
+        position: relative;
+      }
+      .step::before {
+        counter-increment: step; content: counter(step);
+        display: grid; place-items: center; width: 28px; height: 28px; border-radius: 9px;
+        background: var(--brand-soft); color: var(--brand-hover);
+        font-size: 13px; font-weight: 700; margin-bottom: 14px;
+      }
+      .step h3 { margin: 0 0 6px; font-size: 15px; }
+      .step p { margin: 0; font-size: 13.5px; color: var(--text-2); line-height: 1.7; }
+      kbd {
+        display: inline-block; padding: 1px 5px; border: 1px solid var(--line); border-bottom-width: 2px;
+        border-radius: 5px; background: #fff; font: 12px/1.5 ui-monospace, Menlo, Consolas, monospace;
+        color: var(--text);
+      }
+
+      /* ---------- 能力卡片 ---------- */
+      .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+      .card {
+        background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 22px;
+      }
+      .card .ico {
+        width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center;
+        background: var(--brand-soft); color: var(--brand-hover); margin-bottom: 12px;
+      }
+      .card .ico svg { width: 16px; height: 16px; display: block; }
+      .card h3 { margin: 0 0 5px; font-size: 14.5px; }
+      .card p { margin: 0; font-size: 13px; color: var(--text-2); line-height: 1.7; }
+
+      /* ---------- 对比说明 ---------- */
+      .why { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+      .why-box { border: 1px solid var(--line); border-radius: 14px; padding: 24px; background: #fff; }
+      .why-box h3 { margin: 0 0 10px; font-size: 15px; }
+      .why-box ul { margin: 0; padding-left: 18px; font-size: 13.5px; color: var(--text-2); }
+      .why-box li { margin: 4px 0; }
+      .why-box.good { border-color: #ddd5ff; }
+
+      /* ---------- FAQ ---------- */
+      details {
+        border-bottom: 1px solid var(--line); padding: 16px 0;
+      }
+      details summary {
+        cursor: pointer; font-weight: 600; font-size: 14.5px; list-style: none;
+        display: flex; justify-content: space-between; gap: 16px;
+      }
+      details summary::-webkit-details-marker { display: none; }
+      details summary::after { content: "+"; color: var(--text-3); font-weight: 400; }
+      details[open] summary::after { content: "−"; }
+      details p { margin: 10px 0 0; color: var(--text-2); font-size: 13.5px; }
+
+      /* ---------- 底部 CTA ---------- */
+      .cta { text-align: center; padding: 72px 0; }
+      .cta h2 { margin-bottom: 8px; }
+      .cta p { margin: 0 0 26px; color: var(--text-2); }
+      footer {
+        border-top: 1px solid var(--line); padding: 26px 0 40px;
+        font-size: 12.5px; color: var(--text-3);
+      }
+      footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+      footer a { color: var(--text-2); text-decoration: none; }
+      footer a:hover { color: var(--brand); }
+
+      @media (max-width: 860px) {
+        .hero .wrap { grid-template-columns: 1fr; gap: 32px; }
+        h1 { font-size: 28px; }
+        h2 { font-size: 22px; }
+        .steps, .grid, .why { grid-template-columns: 1fr; }
+        section { padding: 48px 0; }
+        .hero { padding: 40px 0 36px; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="wrap">
+        <a class="logo" href="./"><span class="logo-mark">C</span>CMF 标注工具</a>
+        <a class="btn btn-primary" href="./">打开工具</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="wrap">
+        <div>
+          <span class="eyebrow">免费 · 无需注册</span>
+          <h1>把渲染图变成一张<br />能直接交付的 <em>CMF 标注图</em></h1>
+          <p class="lede">
+            在渲染图上拉引线，逐个部件写清材质、颜色、工艺，右侧填好项目信息，导出 PNG、PDF 或分层 SVG。评审时不用再口头解释一遍。
+          </p>
+          <div class="actions">
+            <a class="btn btn-primary" href="./">开始标注</a>
+            <a class="btn btn-ghost" href="#how">看看怎么用</a>
+            <span class="note">浏览器本地运行，图片不上传</span>
+          </div>
+        </div>
+        <div>
+          <img
+            class="shot"
+            src="./og-cover.png"
+            width="1200"
+            height="630"
+            alt="CMF 标注工具界面：渲染图上用引线标出材质 ABS、颜色 曜石灰、工艺 喷砂"
+          />
+        </div>
+      </div>
+    </header>
+
+    <section class="alt" id="why">
+      <div class="wrap">
+        <h2>设计评审最费时间的，往往不是渲染</h2>
+        <p class="sub">
+          是「这个件什么材质、什么工艺、什么颜色」说不清楚。口头讲一遍、微信打一段字、再用 PPT 圈一圈，信息散在三个地方，最后谁也说不准。这个工具把这件事收进一张图。
+        </p>
+        <div class="why">
+          <div class="why-box">
+            <h3>以前的做法</h3>
+            <ul>
+              <li>渲染图上没有信息，靠嘴说</li>
+              <li>材质、颜色、工艺分散在聊天记录里</li>
+              <li>PPT 圈完还要再拼一张总表</li>
+              <li>改一版，所有说明重做一遍</li>
+            </ul>
+          </div>
+          <div class="why-box good">
+            <h3>用这个工具</h3>
+            <ul>
+              <li>引线直接落在部件旁，材质工艺写在图上</li>
+              <li>颜色存潘通色号，不靠「那个灰」</li>
+              <li>项目信息栏交代背景，一张图就是一份交付物</li>
+              <li>改标注就行，不用重做整张图</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <div class="wrap">
+        <h2>三步上手</h2>
+        <p class="sub">不用装软件，不用注册。打开网页或本地那个 HTML 文件就能开始。</p>
+        <div class="steps">
+          <div class="step">
+            <h3>导入渲染图</h3>
+            <p>点左栏「上传 / 拖入渲染图」，或直接把图片拖进窗口。同一产品的多个角度可以一次选中，会按顺序并排铺开。</p>
+          </div>
+          <div class="step">
+            <h3>拉引线，填 CMF</h3>
+            <p>选「标注」工具，在部件上双击落点、再双击落框。材质和工艺点标签就能填，颜色填潘通色号。一条标注写一个部件。</p>
+          </div>
+          <div class="step">
+            <h3>框画板，导出</h3>
+            <p>在左栏加一块画板框住要交付的区域，选好比例和底色，然后在左下「导出设置」里选 DPI 和格式，导出 PNG / PDF / SVG。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <h2>它能做什么</h2>
+        <p class="sub">按一张 CMF 交付图需要的环节来组织，不是一堆散装功能。</p>
+        <div class="grid">
+          <div class="card">
+            <div class="ico">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+                <path d="M2.5 12.5l7-7" /><rect x="2" y="2" width="4.5" height="4" rx="1" /><circle cx="12.5" cy="12.5" r="1.4" fill="currentColor" stroke="none" />
+              </svg>
+            </div>
+            <h3>引线标注</h3>
+            <p>一条标注对应一个部件，引线自动避让，标注框可拖动、可缩放，不用手动对齐。</p>
+          </div>
+          <div class="card">
+            <div class="ico">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+                <circle cx="4" cy="4" r="2" /><circle cx="12" cy="4" r="2" /><circle cx="4" cy="12" r="2" /><circle cx="12" cy="12" r="2" />
+              </svg>
+            </div>
+            <h3>材质 / 工艺 / 颜色</h3>
+            <p>三栏分开填。常用材质和工艺点标签即可，颜色记录潘通色号，交付时不留歧义。</p>
+          </div>
+          <div class="card">
+            <div class="ico">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+                <rect x="2.5" y="2.5" width="11" height="11" rx="1.5" /><path d="M2.5 6h11M6 6v7.5" />
+              </svg>
+            </div>
+            <h3>项目信息栏</h3>
+            <p>产品名、版本、日期、设计师等字段可自行增删。版本号填数字会自动递增。</p>
+          </div>
+          <div class="card">
+            <div class="ico">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+                <rect x="2" y="2.5" width="12" height="11" rx="1.5" /><path d="M5 5.5h3M5 8h6M5 10.5h4" />
+              </svg>
+            </div>
+            <h3>画板与自动画布</h3>
+            <p>按 1:1、4:3、16:9 或自由比例框出交付区域，底色可透明。勾「跟随内容」后，加图会自动贴合。</p>
+          </div>
+          <div class="card">
+            <div class="ico">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+                <path d="M8 2v8M8 10l-2.5-2.5M8 10l2.5-2.5" /><path d="M2.5 12.5h11" />
+              </svg>
+            </div>
+            <h3>多格式导出</h3>
+            <p>PNG / JPEG / WebP / PDF / SVG。96–300 DPI 或原始分辨率，每块画板可以各设各的。</p>
+          </div>
+          <div class="card">
+            <div class="ico">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+                <path d="M4.5 7V4.5a3.5 3.5 0 017 0V7" /><rect x="2.5" y="7" width="11" height="6.5" rx="1.5" />
+              </svg>
+            </div>
+            <h3>数据留在本地</h3>
+            <p>图片和标注只存在你自己的浏览器里，不上传服务器。也可以下载单文件，断网使用。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>几个常被问到的问题</h2>
+        <p class="sub">还有更细的操作说明，见工具内「关于」卡片里的完整教程。</p>
+        <details open>
+          <summary>要收费吗？要注册吗？</summary>
+          <p>免费，也不需要注册。打开网页就能用；想要离线版，下载一个 HTML 文件，双击用 Chrome 或 Edge 打开即可，功能和在线版一样。</p>
+        </details>
+        <details>
+          <summary>图片会被上传到服务器吗？</summary>
+          <p>不会。所有图片、标注和设置都保存在你自己浏览器的本地存储里，工具没有后端。换电脑或清理浏览器数据后旧存档会看不到，重要项目请用「导出项目文件」备份。</p>
+        </details>
+        <details>
+          <summary>能导出给下游继续编辑吗？</summary>
+          <p>可以选 SVG。渲染图、每条标注、形状、信息栏、水印各自是独立图层，文字是真正的文本，在 Illustrator 里能逐层选中、直接改字。需要 PDF 就在 AI 里另存。</p>
+        </details>
+        <details>
+          <summary>和直接在 PPT / Figma 里圈有什么区别？</summary>
+          <p>圈只是画个圈，材质工艺还得另写。这里每条引线自带材质、颜色、工艺三栏，颜色存的是潘通色号，导出就是一张信息完整的总表，不用再拼第二遍。</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="wrap">
+        <h2>下一版评审，试着用图说话</h2>
+        <p>不用注册，打开就能用。也可以下载单文件，带进没网的评审室。</p>
+        <div class="actions" style="justify-content: center">
+          <a class="btn btn-primary" href="./">打开 CMF 标注工具</a>
+          <a class="btn btn-ghost" href="https://github.com/ceetanglab/cmf-annotator">下载离线版</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap">
+        <span>造型食堂 ceetang · 免费在线工具</span>
+        <span>
+          <a href="./">工具首页</a> ·
+          <a href="https://github.com/ceetanglab/cmf-annotator">GitHub</a> ·
+          <a href="https://github.com/ceetanglab/cmf-annotator/blob/main/docs/%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.md">完整使用说明</a>
+        </span>
+      </div>
+    </footer>
+  </body>
+</html>

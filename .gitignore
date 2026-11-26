@@ -1,9 +1,23 @@
-# 这个仓库对外只放「产物 + 说明」，源码与构建脚本留在本地。
-# 白名单写法：除了下面几行，其它一律不进仓库（要在本地改源码，直接改就行）。
-/*
-!/.gitignore
-!/.gitattributes
-!/README.md
-!/LICENSE
-!/cmf-annotator.html
-!/docs/
+# 依赖
+node_modules/
+
+# 构建产物（根目录的 cmf-annotator.html 是分发件，单独保留）
+dist/
+.vite/
+*.tsbuildinfo
+
+# 自测截图
+shots/
+
+# 日志与系统文件
+*.log
+.DS_Store
+Thumbs.db
+
+# 编辑器
+.vscode/
+.idea/
+
+# 本地环境变量与密钥
+.env
+.env.*

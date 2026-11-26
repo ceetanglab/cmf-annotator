@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- CMF 标注工具图标母版：紫底 + 标注框 + 引线 + 锚点
+       几何与站点 favicon（32 栅格）严格等比：×16 -->
+  <rect width="512" height="512" rx="128" fill="#8c75ff"/>
+  <!-- 标注框（未填充的圆角矩形） -->
+  <rect x="104" y="104" width="144" height="128" rx="32" fill="none"
+        stroke="#ffffff" stroke-width="32"/>
+  <!-- 引线 -->
+  <path d="M256 184 L392 352" stroke="#ffffff" stroke-width="35" stroke-linecap="round"/>
+  <!-- 锚点 -->
+  <circle cx="392" cy="352" r="45" fill="#ffffff"/>
+</svg>

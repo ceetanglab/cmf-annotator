@@ -14,7 +14,8 @@
 
 整个工具就装在这一个文件里——不装 Node、不联网、没有外链资源。发给同事、拷进内网盘，都是这一个文件。
 
-**方式二：在线打开**：<https://cmf.ceetang.com>
+**方式二：在线打开**：<https://cmf.ceetang.com>  
+想先看它能做什么、适合谁用：<https://cmf.ceetang.com/about.html>
 
 ## 三步上手
 
